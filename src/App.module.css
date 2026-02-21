@@ -21,16 +21,117 @@
 }
 
 .tableCard {
+  display: flex;
+  flex-direction: column;
   background: var(--color-bg-surface);
   border-radius: var(--radius-md);
   padding: var(--space-6) var(--space-4);
 }
 
+.tableCard[data-fixed-height='true'] {
+  height: calc(
+    var(--space-6) * 2 +
+    1.875rem +
+    var(--row-height) * 10 +
+    var(--border-width) +
+    var(--space-4) * 2 +
+    var(--line-height-sm)
+  );
+}
+
+.tableWrapper {
+  flex-shrink: 0;
+}
+
+.tableCard[data-fixed-height='true'] .tableWrapper {
+  height: calc(1.875rem + var(--row-height) * 10 + var(--border-width));
+  overflow: hidden;
+}
+
 .emptyState {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 12.5rem;
-  color: var(--color-text-secondary);
+  gap: var(--space-2);
+  flex: 1;
+  min-height: 0;
+  text-align: center;
+  padding: var(--space-6);
+}
+
+.emptyStateTitle {
   font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.emptyStateHint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-sm);
+}
+
+.reviewerTools {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-left: auto;
+}
+
+.heightControl {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.125rem;
+}
+
+.heightToggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0;
+  cursor: pointer;
+  background: none;
+}
+
+.heightToggleThumb {
+  position: relative;
+  width: 1.75rem;
+  height: 1rem;
+  background: var(--color-border-default);
+  border-radius: var(--radius-full);
+  transition: background-color var(--duration-base) var(--ease-out);
+}
+
+.heightToggleThumb::after {
+  content: '';
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 0.75rem;
+  height: 0.75rem;
+  background: var(--color-bg-surface);
+  border-radius: 50%;
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.heightToggle[aria-checked='true'] .heightToggleThumb {
+  background: var(--color-interactive);
+}
+
+.heightToggle[aria-checked='true'] .heightToggleThumb::after {
+  transform: translateX(0.75rem);
+}
+
+.heightToggleLabel {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+}
+
+.heightDesc {
+  font-size: 0.625rem;
+  color: var(--color-text-disabled);
+  text-align: right;
 }

@@ -1,8 +1,5 @@
 .trigger {
-  position: fixed;
-  bottom: var(--space-6);
-  right: var(--space-6);
-  height: 2.5rem;
+  height: 2rem;
   padding: 0 var(--space-4);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
@@ -10,8 +7,8 @@
   background: var(--color-interactive);
   border-radius: var(--radius-full);
   cursor: pointer;
-  z-index: var(--z-floating);
-  box-shadow: var(--shadow-floating);
+  transition: opacity var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
 }
 
 .trigger:hover {
@@ -28,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadeIn var(--duration-base) ease-out;
+  animation: fadeIn var(--duration-base) var(--ease-out);
 }
 
 @keyframes fadeIn {
@@ -45,10 +42,10 @@
   max-height: calc(100vh - 6rem);
   display: flex;
   flex-direction: column;
-  animation: slideUp var(--duration-slow) ease-out;
+  animation: panelIn var(--duration-slow) var(--ease-out);
 }
 
-@keyframes slideUp {
+@keyframes panelIn {
   from {
     opacity: 0;
     transform: translateY(1rem);
@@ -69,13 +66,13 @@
 }
 
 .panelTitle {
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
 }
 
 .panelSubtitle {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-base);
   color: var(--color-text-secondary);
   margin-top: var(--space-1);
 }
@@ -98,45 +95,47 @@
 
 .panelBody {
   overflow-y: auto;
-  padding: var(--space-4) var(--space-6);
-}
-
-.noteRow {
+  padding: var(--space-6);
   display: flex;
+  flex-direction: column;
   gap: var(--space-4);
-  padding: var(--space-3) 0;
-  border-bottom: var(--border-width) solid var(--color-border-default);
 }
 
-.noteRow:last-child {
-  border-bottom: none;
+.group {
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-interactive);
 }
 
-.noteComponent {
-  width: 8rem;
-  flex-shrink: 0;
+.groupTitle {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   color: var(--color-interactive);
-  padding-top: 0.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-2);
 }
 
-.noteContent {
-  flex: 1;
-  min-width: 0;
+.noteList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
 }
 
-.noteProperty {
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  color: var(--color-text-primary);
-  font-family: 'Roboto Mono', monospace;
-  word-break: break-word;
-}
-
-.noteRationale {
+.noteItem {
   font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
-  margin-top: var(--space-1);
   line-height: var(--line-height-sm);
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+
+.noteItem::before {
+  content: '·';
+  color: var(--color-text-disabled);
+  font-weight: var(--font-weight-semibold);
+  flex-shrink: 0;
 }

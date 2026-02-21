@@ -16,7 +16,7 @@ export function SingleSelectFilter({
   value,
   onChange,
 }: SingleSelectFilterProps) {
-  const { isOpen, wrapperRef, toggle, close } = useDropdown();
+  const { isOpen, isClosing, wrapperRef, toggle, close } = useDropdown();
 
   const handleSelect = useCallback(
     (option: string) => {
@@ -46,7 +46,7 @@ export function SingleSelectFilter({
       />
 
       {isOpen && (
-        <div className={styles.dropdown} role="listbox" aria-label={`${label} filter`}>
+        <div className={styles.dropdown} role="listbox" aria-label={`${label} filter`} data-closing={isClosing || undefined}>
           {options.map((option) => (
             <button
               key={option}

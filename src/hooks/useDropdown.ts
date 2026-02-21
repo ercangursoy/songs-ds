@@ -5,16 +5,27 @@ interface UseDropdownOptions {
   onClose?: () => void;
 }
 
+const EXIT_DURATION = 100;
+
 export function useDropdown({ onClose }: UseDropdownOptions = {}) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
 
   const close = useCallback(() => {
-    setIsOpen(false);
-    onClose?.();
-  }, [onClose]);
+    if (!isOpen || isClosing) return;
+    setIsClosing(true);
+    timerRef.current = setTimeout(() => {
+      setIsOpen(false);
+      setIsClosing(false);
+      onClose?.();
+    }, EXIT_DURATION);
+  }, [isOpen, isClosing, onClose]);
 
   const open = useCallback(() => {
+    clearTimeout(timerRef.current);
+    setIsClosing(false);
     setIsOpen(true);
   }, []);
 
@@ -22,9 +33,13 @@ export function useDropdown({ onClose }: UseDropdownOptions = {}) {
     if (isOpen) {
       close();
     } else {
-      setIsOpen(true);
+      open();
     }
-  }, [isOpen, close]);
+  }, [isOpen, close, open]);
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   useClickOutside(wrapperRef, close);
 
@@ -37,5 +52,7 @@ export function useDropdown({ onClose }: UseDropdownOptions = {}) {
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [isOpen, close]);
 
-  return { isOpen, wrapperRef, open, close, toggle } as const;
+  const visible = isOpen || isClosing;
+
+  return { isOpen: visible, isClosing, wrapperRef, open, close, toggle } as const;
 }

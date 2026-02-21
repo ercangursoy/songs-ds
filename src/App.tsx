@@ -11,7 +11,7 @@ import { songs, getUniqueArtists, getUniqueGenres } from '@/data/songs';
 import type { Song, SortConfig, Column } from '@/types';
 import styles from './App.module.css';
 
-const columns: Column[] = [
+const columns: Column<Song>[] = [
   { key: 'title', label: 'Title', sortable: true, width: '26%' },
   { key: 'artist', label: 'Artist', sortable: true, width: '29%' },
   { key: 'genre', label: 'Genre', sortable: false, width: '45%' },
@@ -20,14 +20,18 @@ const columns: Column[] = [
 const artistOptions = getUniqueArtists(songs);
 const genreOptions = getUniqueGenres(songs);
 
+const PAGE_SIZE = 10;
+
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
-  const [sortConfig, setSortConfig] = useState<SortConfig | null>({
+  const [sortConfig, setSortConfig] = useState<SortConfig<Song> | null>({
     key: 'title',
     direction: 'asc',
   });
+  const [currentPage, setCurrentPage] = useState(1);
+  const [fixedHeight, setFixedHeight] = useState(false);
 
   const handleSort = useCallback(
     (key: keyof Song) => {
@@ -41,10 +45,24 @@ export default function App() {
     [],
   );
 
+  const handleSearch = useCallback((value: string) => {
+    setSearchQuery(value);
+    setCurrentPage(1);
+  }, []);
+
+  const handleArtistChange = useCallback((value: string[]) => {
+    setSelectedArtists(value);
+    setCurrentPage(1);
+  }, []);
+
+  const handleGenreChange = useCallback((value: string | null) => {
+    setSelectedGenre(value);
+    setCurrentPage(1);
+  }, []);
+
   const filteredAndSorted = useMemo(() => {
     let result = [...songs];
 
-    // Search filter: match across title, artist, genre
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
       result = result.filter(
@@ -55,17 +73,14 @@ export default function App() {
       );
     }
 
-    // Multi-select artist filter
     if (selectedArtists.length > 0) {
       result = result.filter((song) => selectedArtists.includes(song.artist));
     }
 
-    // Single-select genre filter
     if (selectedGenre) {
       result = result.filter((song) => song.genre === selectedGenre);
     }
 
-    // Sort
     if (sortConfig) {
       result.sort((a, b) => {
         const aVal = a[sortConfig.key].toLowerCase();
@@ -79,6 +94,13 @@ export default function App() {
     return result;
   }, [searchQuery, selectedArtists, selectedGenre, sortConfig]);
 
+  const totalPages = Math.max(1, Math.ceil(filteredAndSorted.length / PAGE_SIZE));
+  const safePage = Math.min(currentPage, totalPages);
+  const pageData = filteredAndSorted.slice(
+    (safePage - 1) * PAGE_SIZE,
+    safePage * PAGE_SIZE,
+  );
+
   return (
     <div className={styles.page}>
       <h1 className={styles.title}>Songs</h1>
@@ -86,45 +108,73 @@ export default function App() {
       <div className={styles.toolbar}>
         <SearchInput
           value={searchQuery}
-          onChange={setSearchQuery}
-          onClear={() => setSearchQuery('')}
+          onChange={handleSearch}
+          onClear={() => handleSearch('')}
           placeholder="Search by title, artist or genre"
         />
         <MultiSelectFilter
           label="Artist"
           options={artistOptions}
           value={selectedArtists}
-          onChange={setSelectedArtists}
+          onChange={handleArtistChange}
           searchPlaceholder="Search Artists"
         />
         <SingleSelectFilter
           label="Genre"
           options={genreOptions}
           value={selectedGenre}
-          onChange={setSelectedGenre}
+          onChange={handleGenreChange}
         />
+
+        <div className={styles.reviewerTools}>
+          <DesignNotes />
+          <div className={styles.heightControl}>
+            <button
+              className={styles.heightToggle}
+              role="switch"
+              aria-checked={fixedHeight}
+              onClick={() => setFixedHeight((v) => !v)}
+              type="button"
+            >
+              <span className={styles.heightToggleThumb} />
+              <span className={styles.heightToggleLabel}>
+                {fixedHeight ? 'Fixed height' : 'Dynamic height'}
+              </span>
+            </button>
+            <span className={styles.heightDesc}>
+              {fixedHeight ? 'No layout shift on paginate' : 'Fits content · Figma spec'}
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div className={styles.tableCard}>
+      <div className={styles.tableCard} data-fixed-height={fixedHeight || undefined}>
         {filteredAndSorted.length > 0 ? (
           <>
-            <DataTable
-              data={filteredAndSorted}
-              columns={columns}
-              sortConfig={sortConfig}
-              onSort={handleSort}
-            />
+            <div className={styles.tableWrapper}>
+              <DataTable
+                data={pageData}
+                columns={columns}
+                sortConfig={sortConfig}
+                onSort={handleSort}
+                rowKey={(song) => `${song.title}-${song.artist}`}
+              />
+            </div>
             <Pagination
-              currentPage={1}
-              totalPages={1}
-              onPageChange={() => {}}
+              currentPage={safePage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
             />
           </>
         ) : (
-          <div className={styles.emptyState}>No songs match the current filters.</div>
+          <div className={styles.emptyState}>
+            <div className={styles.emptyStateTitle}>No songs found</div>
+            <div className={styles.emptyStateHint}>
+              Try adjusting your search or filters to see results
+            </div>
+          </div>
         )}
       </div>
-      <DesignNotes />
     </div>
   );
 }

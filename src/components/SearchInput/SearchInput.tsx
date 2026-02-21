@@ -27,16 +27,15 @@ export function SearchInput({
         placeholder={placeholder}
         aria-label={placeholder}
       />
-      {value && (
-        <button
-          className={styles.clearButton}
-          onClick={onClear}
-          type="button"
-          aria-label="Clear search"
-        >
-          <CloseIcon size={24} />
-        </button>
-      )}
+      <button
+        className={styles.clearButton}
+        onClick={onClear}
+        type="button"
+        aria-label="Clear search"
+        data-visible={!!value || undefined}
+      >
+        <CloseIcon size={24} />
+      </button>
     </div>
   );
 }

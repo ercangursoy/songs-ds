@@ -10,7 +10,8 @@
   background: var(--color-bg-surface);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color var(--duration-base) ease, border-color var(--duration-base) ease;
+  transition: background-color var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out);
 }
 
 .checkbox[data-checked='true'] {
@@ -27,7 +28,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: checkIn 0.12s ease-out;
+  animation: checkIn var(--duration-fast) var(--ease-out);
 }
 
 @keyframes checkIn {

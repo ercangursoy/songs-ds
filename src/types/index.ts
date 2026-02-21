@@ -6,13 +6,13 @@ export interface Song {
 
 export type SortDirection = 'asc' | 'desc';
 
-export interface SortConfig {
-  key: keyof Song;
+export interface SortConfig<T = Record<string, string>> {
+  key: keyof T & string;
   direction: SortDirection;
 }
 
-export interface Column {
-  key: keyof Song;
+export interface Column<T = Record<string, string>> {
+  key: keyof T & string;
   label: string;
   sortable?: boolean;
   width?: string;

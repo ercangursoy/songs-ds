@@ -1,15 +1,24 @@
 import { SortArrowIcon } from '@/icons';
-import type { Song, SortConfig, Column } from '@/types';
+import type { SortConfig, Column } from '@/types';
 import styles from './DataTable.module.css';
 
-export interface DataTableProps {
-  data: Song[];
-  columns: Column[];
-  sortConfig: SortConfig | null;
-  onSort: (key: keyof Song) => void;
+export interface DataTableProps<T extends { [K in keyof T]: string }> {
+  data: T[];
+  columns: Column<T>[];
+  sortConfig: SortConfig<T> | null;
+  onSort: (key: keyof T & string) => void;
+  rowKey: (row: T, index: number) => string;
 }
 
-export function DataTable({ data, columns, sortConfig, onSort }: DataTableProps) {
+export function DataTable<T extends { [K in keyof T]: string }>({
+  data,
+  columns,
+  sortConfig,
+  onSort,
+  rowKey,
+}: DataTableProps<T>) {
+  const sortToken = sortConfig ? `${sortConfig.key}-${sortConfig.direction}` : 'none';
+
   return (
     <table className={styles.table}>
       <colgroup>
@@ -56,9 +65,9 @@ export function DataTable({ data, columns, sortConfig, onSort }: DataTableProps)
           ))}
         </tr>
       </thead>
-      <tbody>
+      <tbody key={sortToken}>
         {data.map((row, i) => (
-          <tr key={`${row.title}-${i}`} className={styles.bodyRow}>
+          <tr key={rowKey(row, i)} className={styles.bodyRow}>
             {columns.map((col) => (
               <td key={col.key} className={styles.bodyCell}>
                 {row[col.key]}

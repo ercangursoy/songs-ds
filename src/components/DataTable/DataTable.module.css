@@ -26,6 +26,7 @@
   composes: headerCell;
   cursor: pointer;
   user-select: none;
+  transition: color var(--duration-base) var(--ease-out);
 }
 
 .headerCellSortable:hover {
@@ -42,10 +43,15 @@
   display: inline-flex;
   align-items: center;
   color: var(--color-text-disabled);
+  transition: color var(--duration-base) var(--ease-out);
 }
 
 .sortIcon[data-active='true'] {
   color: var(--color-text-primary);
+}
+
+.sortIcon svg {
+  transition: transform var(--duration-slow) var(--ease-out);
 }
 
 .sortIcon svg[data-direction='asc'] {
@@ -56,6 +62,21 @@
 
 .bodyRow {
   border-bottom: var(--border-width) solid var(--color-border-default);
+  transition: background-color var(--duration-fast) var(--ease-out);
+  animation: rowIn var(--duration-slow) var(--ease-out) both;
+}
+
+.bodyRow:hover {
+  background: var(--color-bg-hover);
+}
+
+@keyframes rowIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .bodyCell {

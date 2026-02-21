@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { CloseIcon } from '@/icons';
-import { designNotes } from '@/data/designNotes';
+import { designNoteGroups, totalEnhancementCount } from '@/data/designNotes';
 import styles from './DesignNotes.module.css';
 
 export function DesignNotes() {
@@ -24,7 +24,7 @@ export function DesignNotes() {
         onClick={() => setIsOpen(true)}
         type="button"
       >
-        UX Enhancements ({designNotes.length})
+        UX Enhancements ({totalEnhancementCount})
       </button>
 
       {isOpen && (
@@ -33,6 +33,7 @@ export function DesignNotes() {
             className={styles.panel}
             onClick={(e) => e.stopPropagation()}
             role="dialog"
+            aria-modal="true"
             aria-label="UX enhancement notes"
           >
             <div className={styles.panelHeader}>
@@ -53,13 +54,14 @@ export function DesignNotes() {
             </div>
 
             <div className={styles.panelBody}>
-              {designNotes.map((note, i) => (
-                <div key={i} className={styles.noteRow}>
-                  <div className={styles.noteComponent}>{note.component}</div>
-                  <div className={styles.noteContent}>
-                    <div className={styles.noteProperty}>{note.property}</div>
-                    <div className={styles.noteRationale}>{note.rationale}</div>
-                  </div>
+              {designNoteGroups.map((group) => (
+                <div key={group.category} className={styles.group}>
+                  <div className={styles.groupTitle}>{group.category}</div>
+                  <ul className={styles.noteList}>
+                    {group.notes.map((note) => (
+                      <li key={note} className={styles.noteItem}>{note}</li>
+                    ))}
+                  </ul>
                 </div>
               ))}
             </div>

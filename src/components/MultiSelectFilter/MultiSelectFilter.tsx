@@ -30,7 +30,7 @@ export function MultiSelectFilter({
     setStagedSelection(value);
   }, [value]);
 
-  const { isOpen, wrapperRef, open, close } = useDropdown({ onClose: resetState });
+  const { isOpen, isClosing, wrapperRef, open, close } = useDropdown({ onClose: resetState });
 
   const handleToggle = useCallback(() => {
     if (isOpen) {
@@ -82,7 +82,7 @@ export function MultiSelectFilter({
       />
 
       {isOpen && (
-        <div className={styles.dropdown} role="dialog" aria-label={`${label} filter`}>
+        <div className={styles.dropdown} role="dialog" aria-label={`${label} filter`} data-closing={isClosing || undefined}>
           {/* Header: search (left) + selected count (right) */}
           <div className={styles.header}>
             <div className={styles.searchSection}>

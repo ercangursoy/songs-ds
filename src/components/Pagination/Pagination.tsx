@@ -12,7 +12,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
   const canGoNext = currentPage < totalPages;
 
   return (
-    <div className={styles.wrapper}>
+    <nav className={styles.wrapper} aria-label="Pagination">
       <button
         className={styles.navButton}
         data-enabled={canGoPrev}
@@ -36,6 +36,6 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
       >
         <ChevronRightIcon size={20} />
       </button>
-    </div>
+    </nav>
   );
 }

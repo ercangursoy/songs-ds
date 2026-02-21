@@ -15,7 +15,7 @@
   font-weight: var(--font-weight-regular);
   color: var(--color-text-primary);
   outline: none;
-  transition: border-color var(--duration-base) ease;
+  transition: border-color var(--duration-base) var(--ease-out);
 }
 
 .input::placeholder {
@@ -50,4 +50,12 @@
   color: var(--color-text-primary);
   cursor: pointer;
   border-radius: var(--radius-sm);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.clearButton[data-visible='true'] {
+  opacity: 1;
+  pointer-events: auto;
 }

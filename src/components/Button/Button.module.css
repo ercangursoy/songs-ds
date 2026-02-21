@@ -8,10 +8,16 @@
   border-radius: var(--radius-sm);
   text-align: center;
   cursor: pointer;
+  transition: opacity var(--duration-fast) var(--ease-out),
+    transform var(--duration-fast) var(--ease-out);
 }
 
 .button:hover {
   opacity: var(--opacity-hover);
+}
+
+.button:active {
+  transform: scale(0.97);
 }
 
 /* ---- Variants ---- */

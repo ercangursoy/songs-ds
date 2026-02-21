@@ -16,7 +16,11 @@
   background: var(--color-bg-surface);
   border-radius: var(--radius-sm);
   box-shadow: var(--shadow-dropdown);
-  animation: dropdownIn var(--duration-base) ease-out;
+  animation: dropdownIn var(--duration-base) var(--ease-out);
+}
+
+.dropdown[data-closing='true'] {
+  animation: dropdownOut var(--duration-fast) var(--ease-in-out) forwards;
 }
 
 @keyframes dropdownIn {
@@ -27,6 +31,17 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes dropdownOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-0.25rem);
   }
 }
 
@@ -102,7 +117,7 @@
   padding: 0 var(--space-3);
   gap: var(--space-3);
   cursor: pointer;
-  transition: background-color var(--duration-fast) ease;
+  transition: background-color var(--duration-fast) var(--ease-out);
 }
 
 .optionRow:hover {
@@ -120,6 +135,7 @@
 .selectedPanel {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .selectedItem {
@@ -128,6 +144,12 @@
   height: var(--row-height);
   padding: 0 var(--space-3);
   gap: var(--space-3);
+  animation: itemIn var(--duration-base) var(--ease-out);
+}
+
+@keyframes itemIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .removeButton {

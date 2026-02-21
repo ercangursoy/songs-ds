@@ -4,6 +4,7 @@
   justify-content: flex-end;
   gap: var(--space-2);
   padding: var(--space-4) 0;
+  margin-top: auto;
 }
 
 .pageInfo {
@@ -22,6 +23,7 @@
   color: var(--color-text-disabled);
   cursor: default;
   border-radius: var(--radius-sm);
+  transition: color var(--duration-base) var(--ease-out);
 }
 
 .navButton[data-enabled='true'] {

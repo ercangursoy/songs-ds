@@ -50,6 +50,10 @@
   --duration-base: 0.15s;
   --duration-slow: 0.2s;
 
+  /* Easing curves */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.45, 0, 0.55, 1);
+
   /* Opacity */
   --opacity-hover: 0.9;
 

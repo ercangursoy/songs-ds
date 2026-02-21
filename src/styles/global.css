@@ -8,6 +8,7 @@ body {
   color: var(--color-text-primary);
   background-color: var(--color-bg-page);
   line-height: var(--line-height-base);
+  text-rendering: optimizeLegibility;
 }
 
 :focus-visible {

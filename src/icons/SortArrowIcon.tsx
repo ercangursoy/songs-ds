@@ -13,6 +13,8 @@ export function SortArrowIcon({ size = 20, className, direction = 'asc' }: SortA
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      focusable="false"
       data-direction={direction}
     >
       <path

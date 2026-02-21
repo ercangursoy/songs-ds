@@ -1,0 +1,28 @@
+.button {
+  min-width: 4.0625rem;
+  height: 1.5rem;
+  padding: 0 var(--space-3);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-xs);
+  border-radius: var(--radius-sm);
+  text-align: center;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: var(--opacity-hover);
+}
+
+/* ---- Variants ---- */
+
+.primary {
+  color: var(--color-interactive-text);
+  background: var(--color-interactive);
+}
+
+.secondary {
+  color: var(--color-interactive);
+  background: var(--color-bg-surface);
+  border: var(--border-width) solid var(--color-interactive);
+}

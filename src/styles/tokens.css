@@ -1,0 +1,110 @@
+:root {
+  /* ========================================
+     PRIMITIVE TOKENS
+     Raw values from the Figma design file.
+     Never reference these directly in components —
+     use semantic tokens instead.
+     ======================================== */
+
+  /* Colors */
+  --color-white: #ffffff;
+  --color-gray-100: #f5f5f5;
+  --color-gray-300: #e0e0e0;
+  --color-gray-400: #bdbdbd;
+  --color-gray-600: #757575;
+  --color-gray-700: #616161;
+  --color-gray-900: #212121;
+  --color-blue-900: #006088;
+  --color-red-500: #db374c;
+
+  /* Spacing scale (4px base) */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+
+  /* Radii */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.75rem;
+  --radius-full: 1.25rem;
+
+  /* Shadows (px intentional — visual effects should not scale with font size) */
+  --shadow-dropdown: 0px 0px 16px 0px rgba(0, 0, 0, 0.2);
+  --shadow-floating: 0 2px 8px rgba(0, 0, 0, 0.2);
+
+  /* Borders */
+  --border-width: 1px;
+
+  /* Z-index scale */
+  --z-dropdown: 10;
+  --z-floating: 100;
+  --z-modal: 200;
+
+  /* Transition durations */
+  --duration-fast: 0.1s;
+  --duration-base: 0.15s;
+  --duration-slow: 0.2s;
+
+  /* Opacity */
+  --opacity-hover: 0.9;
+
+  /* Typography scale */
+  --font-family: 'Roboto', sans-serif;
+  --font-family-condensed: 'Roboto Condensed', 'Roboto', sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.5rem;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  --line-height-xs: 1rem;
+  --line-height-sm: 1.25rem;
+  --line-height-base: 1.25rem;
+  --line-height-lg: 2rem;
+  --line-height-row: 2.5rem;
+
+  /* ========================================
+     SEMANTIC TOKENS
+     Intent-based aliases that map to primitives.
+     These are the tokens components should consume.
+     ======================================== */
+
+  /* Backgrounds */
+  --color-bg-page: var(--color-gray-100);
+  --color-bg-surface: var(--color-white);
+  --color-bg-hover: var(--color-gray-100);
+
+  /* Text */
+  --color-text-primary: var(--color-gray-900);
+  --color-text-secondary: var(--color-gray-600);
+  --color-text-placeholder: var(--color-gray-600);
+  --color-text-disabled: var(--color-gray-400);
+
+  /* Borders */
+  --color-border-default: var(--color-gray-300);
+  --color-border-strong: var(--color-gray-900);
+  --color-border-input: var(--color-gray-600);
+
+  /* Interactive */
+  --color-interactive: var(--color-blue-900);
+  --color-interactive-text: var(--color-white);
+
+  /* Overlay */
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  /* Sizes */
+  --input-height: 2.5rem;
+  --row-height: 2.5rem;
+  --checkbox-size: 1rem;
+  --icon-size-sm: 1rem;
+  --icon-size-md: 1.25rem;
+  --icon-size-lg: 1.5rem;
+}

@@ -1,0 +1,40 @@
+.checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  border-radius: var(--radius-sm);
+  border: var(--border-width) solid var(--color-border-input);
+  background: var(--color-bg-surface);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color var(--duration-base) ease, border-color var(--duration-base) ease;
+}
+
+.checkbox[data-checked='true'] {
+  background: var(--color-interactive);
+  border-color: var(--color-interactive);
+}
+
+.checkbox:hover {
+  border-color: var(--color-text-primary);
+}
+
+.checkmark {
+  color: var(--color-interactive-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: checkIn 0.12s ease-out;
+}
+
+@keyframes checkIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}

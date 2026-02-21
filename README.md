@@ -5,6 +5,7 @@ A pixel-perfect implementation of the Songs table UI from Figma, built with Reac
 ## Live Demo
 
 <!-- TODO: add Vercel/Netlify link after deploy -->
+https://songs-ds.vercel.app/
 
 ## Prerequisites
 

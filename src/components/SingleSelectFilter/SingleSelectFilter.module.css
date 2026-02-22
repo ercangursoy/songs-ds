@@ -15,7 +15,7 @@
   animation: dropdownIn var(--duration-base) var(--ease-out);
 }
 
-.dropdown[data-closing='true'] {
+.dropdown[data-closing="true"] {
   animation: dropdownOut var(--duration-fast) var(--ease-in-out) forwards;
 }
 
@@ -56,8 +56,9 @@
   transition: background-color var(--duration-fast) var(--ease-out);
 }
 
+.option[data-focused="true"],
 .option:hover,
-.option[data-selected='true'] {
+.option[data-selected="true"] {
   background: var(--color-bg-hover);
 }
 

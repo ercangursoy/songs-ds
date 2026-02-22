@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback } from "react";
 import {
   SearchInput,
   MultiSelectFilter,
@@ -6,15 +6,15 @@ import {
   DataTable,
   Pagination,
   DesignNotes,
-} from '@/components';
-import { songs, getUniqueArtists, getUniqueGenres } from '@/data/songs';
-import type { Song, SortConfig, Column } from '@/types';
-import styles from './App.module.css';
+} from "@/components";
+import { songs, getUniqueArtists, getUniqueGenres } from "@/data/songs";
+import type { Song, SortConfig, Column } from "@/types";
+import styles from "./App.module.css";
 
 const columns: Column<Song>[] = [
-  { key: 'title', label: 'Title', sortable: true, width: '26%' },
-  { key: 'artist', label: 'Artist', sortable: true, width: '29%' },
-  { key: 'genre', label: 'Genre', sortable: false, width: '45%' },
+  { key: "title", label: "Title", sortable: true, width: "26%" },
+  { key: "artist", label: "Artist", sortable: true, width: "29%" },
+  { key: "genre", label: "Genre", sortable: false, width: "45%" },
 ];
 
 const artistOptions = getUniqueArtists(songs);
@@ -22,33 +22,34 @@ const genreOptions = getUniqueGenres(songs);
 
 const PAGE_SIZE = 10;
 
+const getSongKey = (song: Song) => `${song.title}-${song.artist}`;
+
 export default function App() {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [selectedArtists, setSelectedArtists] = useState<string[]>([]);
   const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
   const [sortConfig, setSortConfig] = useState<SortConfig<Song> | null>({
-    key: 'title',
-    direction: 'asc',
+    key: "title",
+    direction: "asc",
   });
   const [currentPage, setCurrentPage] = useState(1);
   const [fixedHeight, setFixedHeight] = useState(false);
 
-  const handleSort = useCallback(
-    (key: keyof Song) => {
-      setSortConfig((prev) => {
-        if (prev?.key === key) {
-          return { key, direction: prev.direction === 'asc' ? 'desc' : 'asc' };
-        }
-        return { key, direction: 'asc' };
-      });
-    },
-    [],
-  );
+  const handleSort = useCallback((key: keyof Song) => {
+    setSortConfig((prev) => {
+      if (prev?.key === key) {
+        return { key, direction: prev.direction === "asc" ? "desc" : "asc" };
+      }
+      return { key, direction: "asc" };
+    });
+  }, []);
 
   const handleSearch = useCallback((value: string) => {
     setSearchQuery(value);
     setCurrentPage(1);
   }, []);
+
+  const handleClearSearch = useCallback(() => handleSearch(""), [handleSearch]);
 
   const handleArtistChange = useCallback((value: string[]) => {
     setSelectedArtists(value);
@@ -85,8 +86,8 @@ export default function App() {
       result.sort((a, b) => {
         const aVal = a[sortConfig.key].toLowerCase();
         const bVal = b[sortConfig.key].toLowerCase();
-        if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1;
-        if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1;
+        if (aVal < bVal) return sortConfig.direction === "asc" ? -1 : 1;
+        if (aVal > bVal) return sortConfig.direction === "asc" ? 1 : -1;
         return 0;
       });
     }
@@ -94,8 +95,12 @@ export default function App() {
     return result;
   }, [searchQuery, selectedArtists, selectedGenre, sortConfig]);
 
-  const totalPages = Math.max(1, Math.ceil(filteredAndSorted.length / PAGE_SIZE));
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredAndSorted.length / PAGE_SIZE),
+  );
   const safePage = Math.min(currentPage, totalPages);
+
   const pageData = filteredAndSorted.slice(
     (safePage - 1) * PAGE_SIZE,
     safePage * PAGE_SIZE,
@@ -109,7 +114,7 @@ export default function App() {
         <SearchInput
           value={searchQuery}
           onChange={handleSearch}
-          onClear={() => handleSearch('')}
+          onClear={handleClearSearch}
           placeholder="Search by title, artist or genre"
         />
         <MultiSelectFilter
@@ -127,28 +132,35 @@ export default function App() {
         />
 
         <div className={styles.reviewerTools}>
-          <DesignNotes />
-          <div className={styles.heightControl}>
-            <button
-              className={styles.heightToggle}
-              role="switch"
-              aria-checked={fixedHeight}
-              onClick={() => setFixedHeight((v) => !v)}
-              type="button"
-            >
-              <span className={styles.heightToggleThumb} />
-              <span className={styles.heightToggleLabel}>
-                {fixedHeight ? 'Fixed height' : 'Dynamic height'}
+          <DesignNotes>
+            <div className={styles.heightControl}>
+              <div className={styles.heightLabel}>Table height</div>
+              <button
+                className={styles.heightToggle}
+                role="switch"
+                aria-checked={fixedHeight}
+                onClick={() => setFixedHeight((v) => !v)}
+                type="button"
+              >
+                <span className={styles.heightToggleThumb} />
+                <span className={styles.heightToggleLabel}>
+                  {fixedHeight ? "Fixed" : "Dynamic"}
+                </span>
+              </button>
+              <span className={styles.heightDesc}>
+                {fixedHeight
+                  ? "Prevents layout shift on paginate"
+                  : "Shrinks to fit content (Figma spec)"}
               </span>
-            </button>
-            <span className={styles.heightDesc}>
-              {fixedHeight ? 'No layout shift on paginate' : 'Fits content · Figma spec'}
-            </span>
-          </div>
+            </div>
+          </DesignNotes>
         </div>
       </div>
 
-      <div className={styles.tableCard} data-fixed-height={fixedHeight || undefined}>
+      <div
+        className={styles.tableCard}
+        data-fixed-height={fixedHeight || undefined}
+      >
         {filteredAndSorted.length > 0 ? (
           <>
             <div className={styles.tableWrapper}>
@@ -157,7 +169,7 @@ export default function App() {
                 columns={columns}
                 sortConfig={sortConfig}
                 onSort={handleSort}
-                rowKey={(song) => `${song.title}-${song.artist}`}
+                rowKey={getSongKey}
               />
             </div>
             <Pagination

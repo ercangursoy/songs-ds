@@ -1,4 +1,4 @@
-import type { IconProps } from './index';
+import type { IconProps } from "./index";
 
 export function CheckIcon({ size = 12, className }: IconProps) {
   return (

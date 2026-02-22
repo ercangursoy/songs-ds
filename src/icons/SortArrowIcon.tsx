@@ -1,10 +1,14 @@
-import type { IconProps } from './index';
+import type { IconProps } from "./index";
 
 interface SortArrowIconProps extends IconProps {
-  direction?: 'asc' | 'desc';
+  direction?: "asc" | "desc";
 }
 
-export function SortArrowIcon({ size = 20, className, direction = 'asc' }: SortArrowIconProps) {
+export function SortArrowIcon({
+  size = 20,
+  className,
+  direction = "asc",
+}: SortArrowIconProps) {
   return (
     <svg
       className={className}

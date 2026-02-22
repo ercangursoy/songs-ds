@@ -1,5 +1,5 @@
-import { CheckIcon } from '@/icons';
-import styles from './Checkbox.module.css';
+import { CheckIcon } from "@/icons";
+import styles from "./Checkbox.module.css";
 
 export interface CheckboxProps {
   checked: boolean;
@@ -15,7 +15,7 @@ export function Checkbox({ checked, onChange, ariaLabel }: CheckboxProps) {
       aria-checked={checked}
       aria-label={ariaLabel}
       className={styles.checkbox}
-      data-checked={checked}
+      data-checked={checked || undefined}
       onClick={() => onChange(!checked)}
     >
       {checked && (

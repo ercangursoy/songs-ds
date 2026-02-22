@@ -19,7 +19,7 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-text-primary);
   white-space: nowrap;
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 .headerCellSortable {
@@ -46,7 +46,7 @@
   transition: color var(--duration-base) var(--ease-out);
 }
 
-.sortIcon[data-active='true'] {
+.sortIcon[data-active="true"] {
   color: var(--color-text-primary);
 }
 
@@ -54,7 +54,7 @@
   transition: transform var(--duration-slow) var(--ease-out);
 }
 
-.sortIcon svg[data-direction='asc'] {
+.sortIcon svg[data-direction="asc"] {
   transform: rotate(180deg);
 }
 
@@ -90,4 +90,3 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-

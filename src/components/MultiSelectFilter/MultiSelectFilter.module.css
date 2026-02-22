@@ -19,7 +19,7 @@
   animation: dropdownIn var(--duration-base) var(--ease-out);
 }
 
-.dropdown[data-closing='true'] {
+.dropdown[data-closing="true"] {
   animation: dropdownOut var(--duration-fast) var(--ease-in-out) forwards;
 }
 
@@ -120,6 +120,7 @@
   transition: background-color var(--duration-fast) var(--ease-out);
 }
 
+.optionRow[data-focused="true"],
 .optionRow:hover {
   background: var(--color-bg-hover);
 }
@@ -144,12 +145,22 @@
   height: var(--row-height);
   padding: 0 var(--space-3);
   gap: var(--space-3);
+  cursor: pointer;
   animation: itemIn var(--duration-base) var(--ease-out);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.selectedItem:hover {
+  background: var(--color-bg-hover);
 }
 
 @keyframes itemIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .removeButton {
@@ -183,3 +194,20 @@
   flex-shrink: 0;
 }
 
+/* ---- Responsive ---- */
+
+@media (max-width: 36rem) {
+  .dropdown {
+    width: calc(100vw - var(--space-8));
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .searchSection {
+    width: 50%;
+  }
+
+  .optionsPanel {
+    width: 50%;
+  }
+}

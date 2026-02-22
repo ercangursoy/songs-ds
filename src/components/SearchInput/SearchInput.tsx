@@ -1,5 +1,5 @@
-import { SearchIcon, CloseIcon } from '@/icons';
-import styles from './SearchInput.module.css';
+import { SearchIcon, CloseIcon } from "@/icons";
+import styles from "./SearchInput.module.css";
 
 export interface SearchInputProps {
   value: string;
@@ -12,7 +12,7 @@ export function SearchInput({
   value,
   onChange,
   onClear,
-  placeholder = 'Search...',
+  placeholder = "Search...",
 }: SearchInputProps) {
   return (
     <div className={styles.wrapper}>

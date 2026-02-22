@@ -8,7 +8,8 @@
   border-radius: var(--radius-sm);
   text-align: center;
   cursor: pointer;
-  transition: opacity var(--duration-fast) var(--ease-out),
+  transition:
+    opacity var(--duration-fast) var(--ease-out),
     transform var(--duration-fast) var(--ease-out);
 }
 

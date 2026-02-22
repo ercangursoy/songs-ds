@@ -55,7 +55,13 @@
   transition: opacity var(--duration-base) var(--ease-out);
 }
 
-.clearButton[data-visible='true'] {
+.clearButton[data-visible="true"] {
   opacity: 1;
   pointer-events: auto;
+}
+
+@media (max-width: 30rem) {
+  .wrapper {
+    width: 100%;
+  }
 }

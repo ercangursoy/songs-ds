@@ -4,7 +4,7 @@ export interface Song {
   genre: string;
 }
 
-export type SortDirection = 'asc' | 'desc';
+export type SortDirection = "asc" | "desc";
 
 export interface SortConfig<T = Record<string, string>> {
   key: keyof T & string;

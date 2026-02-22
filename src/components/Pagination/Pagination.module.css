@@ -2,8 +2,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--space-2);
-  padding: var(--space-4) 0;
+  gap: var(--space-3);
+  padding: var(--space-3) 0 0;
   margin-top: auto;
 }
 
@@ -26,11 +26,11 @@
   transition: color var(--duration-base) var(--ease-out);
 }
 
-.navButton[data-enabled='true'] {
+.navButton[data-enabled="true"] {
   color: var(--color-text-secondary);
   cursor: pointer;
 }
 
-.navButton[data-enabled='true']:hover {
+.navButton[data-enabled="true"]:hover {
   color: var(--color-text-primary);
 }

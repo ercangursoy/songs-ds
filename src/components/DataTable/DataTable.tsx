@@ -1,6 +1,7 @@
-import { SortArrowIcon } from '@/icons';
-import type { SortConfig, Column } from '@/types';
-import styles from './DataTable.module.css';
+import { type KeyboardEvent } from "react";
+import { SortArrowIcon } from "@/icons";
+import type { SortConfig, Column } from "@/types";
+import styles from "./DataTable.module.css";
 
 export interface DataTableProps<T extends { [K in keyof T]: string }> {
   data: T[];
@@ -17,13 +18,27 @@ export function DataTable<T extends { [K in keyof T]: string }>({
   onSort,
   rowKey,
 }: DataTableProps<T>) {
-  const sortToken = sortConfig ? `${sortConfig.key}-${sortConfig.direction}` : 'none';
+  const sortToken = sortConfig
+    ? `${sortConfig.key}-${sortConfig.direction}`
+    : "none";
+
+  function handleHeaderKeyDown(key: keyof T & string) {
+    return (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        onSort(key);
+      }
+    };
+  }
 
   return (
     <table className={styles.table}>
       <colgroup>
         {columns.map((col) => (
-          <col key={col.key} style={col.width ? { width: col.width } : undefined} />
+          <col
+            key={col.key}
+            style={col.width ? { width: col.width } : undefined}
+          />
         ))}
       </colgroup>
       <thead>
@@ -31,13 +46,19 @@ export function DataTable<T extends { [K in keyof T]: string }>({
           {columns.map((col) => (
             <th
               key={col.key}
-              className={col.sortable ? styles.headerCellSortable : styles.headerCell}
+              className={
+                col.sortable ? styles.headerCellSortable : styles.headerCell
+              }
               onClick={col.sortable ? () => onSort(col.key) : undefined}
+              onKeyDown={
+                col.sortable ? handleHeaderKeyDown(col.key) : undefined
+              }
+              tabIndex={col.sortable ? 0 : undefined}
               aria-sort={
                 sortConfig?.key === col.key
-                  ? sortConfig.direction === 'asc'
-                    ? 'ascending'
-                    : 'descending'
+                  ? sortConfig.direction === "asc"
+                    ? "ascending"
+                    : "descending"
                   : undefined
               }
             >
@@ -52,10 +73,10 @@ export function DataTable<T extends { [K in keyof T]: string }>({
                       size={20}
                       direction={
                         sortConfig?.key === col.key
-                          ? sortConfig.direction === 'asc'
-                            ? 'desc'
-                            : 'asc'
-                          : 'desc'
+                          ? sortConfig.direction === "asc"
+                            ? "desc"
+                            : "asc"
+                          : "desc"
                       }
                     />
                   </span>

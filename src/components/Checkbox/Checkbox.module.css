@@ -10,11 +10,12 @@
   background: var(--color-bg-surface);
   cursor: pointer;
   flex-shrink: 0;
-  transition: background-color var(--duration-base) var(--ease-out),
+  transition:
+    background-color var(--duration-base) var(--ease-out),
     border-color var(--duration-base) var(--ease-out);
 }
 
-.checkbox[data-checked='true'] {
+.checkbox[data-checked="true"] {
   background: var(--color-interactive);
   border-color: var(--color-interactive);
 }

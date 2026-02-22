@@ -5,31 +5,36 @@ export interface DesignNoteGroup {
 
 export const designNoteGroups: DesignNoteGroup[] = [
   {
-    category: 'Rendering',
+    category: "Rendering",
     notes: [
-      'optimizeLegibility for better kerning',
-      'Custom deceleration easing via design tokens',
-      'Optional fixed table height to prevent layout shift',
+      "optimizeLegibility for better kerning",
+      "Custom deceleration easing via design tokens",
+      "Optional fixed table height to prevent layout shift",
+      "Responsive layout: stacks on mobile, table scrolls horizontally",
+      "Smooth table card height transitions via interpolate-size",
     ],
   },
   {
-    category: 'Accessibility',
+    category: "Accessibility",
     notes: [
-      'Focus-visible ring on all interactive elements',
-      'Semantic HTML: <nav> for pagination, aria-sort on columns',
+      "Focus-visible ring on all interactive elements",
+      "Semantic HTML: <nav> for pagination, aria-sort on columns",
       'aria-hidden + focusable="false" on decorative SVGs',
-      'aria-expanded, aria-haspopup on filter triggers',
+      "aria-expanded, aria-haspopup on filter triggers",
+      "Keyboard nav in dropdowns: Arrow/Home/End/Enter",
+      "Focus trap in modal dialogs with restore on close",
+      "prefers-reduced-motion disables all animation",
     ],
   },
   {
-    category: 'Motion',
+    category: "Motion",
     notes: [
-      'Dropdowns fade+slide in/out with custom easing',
-      'Sort arrow rotates smoothly between directions',
-      'Table rows fade in on data change',
-      'Checkmark scales in on toggle',
-      'Search clear button fades in/out',
-      'Active press scale on buttons',
+      "Dropdowns fade+slide in/out with custom easing",
+      "Sort arrow rotates smoothly between directions",
+      "Table rows fade in on data change",
+      "Checkmark scales in on toggle",
+      "Search clear button fades in/out",
+      "Active press scale on buttons",
     ],
   },
 ];

@@ -58,8 +58,8 @@
   --opacity-hover: 0.9;
 
   /* Typography scale */
-  --font-family: 'Roboto', sans-serif;
-  --font-family-condensed: 'Roboto Condensed', 'Roboto', sans-serif;
+  --font-family: "Roboto", sans-serif;
+  --font-family-condensed: "Roboto Condensed", "Roboto", sans-serif;
   --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-base: 1rem;

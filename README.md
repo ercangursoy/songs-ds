@@ -20,6 +20,7 @@ yarn build              # type-check + production build
 yarn lint               # eslint
 yarn test               # run unit tests (Vitest)
 yarn test:watch         # run tests in watch mode
+yarn fmt                # format code (Prettier)
 ```
 
 ## Tech Stack
@@ -28,7 +29,7 @@ yarn test:watch         # run tests in watch mode
 - **Vite** - dev server and build
 - **CSS Modules** - scoped component styles
 - **Vitest** + **React Testing Library** - unit tests
-- **ESLint** - TypeScript + React hooks rules
+- **ESLint** + **Prettier** - linting and formatting
 
 ## Architecture
 
@@ -61,7 +62,7 @@ src/
 ├── hooks/                  # Shared hooks (barrel-exported via index.ts)
 │   ├── useClickOutside     # Click-outside detection
 │   ├── useDropdown         # Dropdown state, keyboard, click-outside
-│   └── useFocusTrap        # Focus trapping for modal dialogs
+│   └── useFocusTrap        # Focus trapping for dialogs and drawers
 ├── icons/                  # SVG icon components (barrel-exported)
 ├── data/                   # Static song data + design notes
 ├── styles/                 # Global styles + design tokens
@@ -78,7 +79,7 @@ Imports use the `@/` path alias. All components export their prop interfaces.
 
 **SingleSelectFilter** - Simple dropdown for single-value selection. Same prop pattern as MultiSelectFilter.
 
-All three share `FilterButton` as their trigger and `useDropdown` for state management.
+Both filters share `FilterButton` as their trigger and `useDropdown` for state management.
 
 ### Accessibility
 

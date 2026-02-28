@@ -1,0 +1,236 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-border-default);
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+.body {
+  overflow-y: auto;
+  flex: 1;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+/* ---- Sections ---- */
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.sectionTitle {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+  margin: 0;
+}
+
+/* ---- Mode toggle ---- */
+
+.modeToggle {
+  display: flex;
+  border: var(--border-width) solid var(--color-border-default);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.modeButton {
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-semibold);
+  padding: 2px 8px;
+  border: none;
+  background: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-out),
+    color var(--duration-fast) var(--ease-out);
+  letter-spacing: 0.03em;
+}
+
+.modeButton + .modeButton {
+  border-left: var(--border-width) solid var(--color-border-default);
+}
+
+.modeButton[data-active] {
+  background: var(--color-interactive);
+  color: var(--color-interactive-text);
+}
+
+/* ---- Contrast checker ---- */
+
+.summary {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+  padding-bottom: var(--space-2);
+  border-bottom: var(--border-width) solid var(--color-border-default);
+}
+
+.summaryCount {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.contrastRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 1.75rem;
+  transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.contrastRow[data-failing] {
+  opacity: 0.5;
+}
+
+.preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  border: var(--border-width) solid var(--color-border-default);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.label {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ratio {
+  font-size: 0.625rem;
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.badge {
+  font-size: 0.625rem;
+  font-weight: var(--font-weight-semibold);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge[data-level="AAA"] {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.badge[data-level="AA"] {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.badge[data-level="Fail"] {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ---- Semantic tokens ---- */
+
+.semanticGroups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.semanticGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.semanticGroupTitle {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-interactive);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-1);
+}
+
+.semanticRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 1.5rem;
+}
+
+.semanticName {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-primary);
+  width: 5rem;
+  flex-shrink: 0;
+}
+
+.semanticArrow {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-disabled);
+  flex-shrink: 0;
+}
+
+.semanticSwatch {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: 2px;
+  border: var(--border-width) solid var(--color-border-default);
+  flex-shrink: 0;
+}
+
+.semanticMaps {
+  font-size: 0.625rem;
+  color: var(--color-text-secondary);
+  font-family: monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

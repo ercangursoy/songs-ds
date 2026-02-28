@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import {
   SearchInput,
   MultiSelectFilter,
@@ -7,6 +7,8 @@ import {
   Pagination,
   DesignNotes,
 } from "@/components";
+import { TokenControls } from "@/components/TokenControls/TokenControls";
+import { InspectorPanel } from "@/components/InspectorPanel/InspectorPanel";
 import { songs, getUniqueArtists, getUniqueGenres } from "@/data/songs";
 import type { Song, SortConfig, Column } from "@/types";
 import styles from "./App.module.css";
@@ -106,87 +108,126 @@ export default function App() {
     safePage * PAGE_SIZE,
   );
 
+  const [resetKey, setResetKey] = useState(0);
+  const [activePreset, setActivePreset] = useState("Default");
+  const handleTokenReset = useCallback(() => setResetKey((k) => k + 1), []);
+
+  const [showTooling, setShowTooling] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "t" && !e.metaKey && !e.ctrlKey && !e.altKey) {
+        const tag = (e.target as HTMLElement).tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+        setShowTooling((v) => !v);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   return (
-    <div className={styles.page}>
-      <h1 className={styles.title}>Songs</h1>
+    <div className={styles.shell}>
+      <aside
+        className={styles.leftSidebar}
+        data-visible={showTooling || undefined}
+      >
+        <InspectorPanel />
+      </aside>
+      <div className={styles.main}>
+        <div className={styles.page}>
+          <h1 className={styles.title}>Songs</h1>
 
-      <div className={styles.toolbar}>
-        <SearchInput
-          value={searchQuery}
-          onChange={handleSearch}
-          onClear={handleClearSearch}
-          placeholder="Search by title, artist or genre"
-        />
-        <MultiSelectFilter
-          label="Artist"
-          options={artistOptions}
-          value={selectedArtists}
-          onChange={handleArtistChange}
-          searchPlaceholder="Search Artists"
-        />
-        <SingleSelectFilter
-          label="Genre"
-          options={genreOptions}
-          value={selectedGenre}
-          onChange={handleGenreChange}
-        />
+          <div className={styles.toolbar}>
+            <SearchInput
+              value={searchQuery}
+              onChange={handleSearch}
+              onClear={handleClearSearch}
+              placeholder="Search by title, artist or genre"
+            />
+            <MultiSelectFilter
+              label="Artist"
+              options={artistOptions}
+              value={selectedArtists}
+              onChange={handleArtistChange}
+              searchPlaceholder="Search Artists"
+            />
+            <SingleSelectFilter
+              label="Genre"
+              options={genreOptions}
+              value={selectedGenre}
+              onChange={handleGenreChange}
+            />
 
-        <div className={styles.reviewerTools}>
-          <DesignNotes>
-            <div className={styles.heightControl}>
-              <div className={styles.heightLabel}>Table height</div>
-              <button
-                className={styles.heightToggle}
-                role="switch"
-                aria-checked={fixedHeight}
-                onClick={() => setFixedHeight((v) => !v)}
-                type="button"
-              >
-                <span className={styles.heightToggleThumb} />
-                <span className={styles.heightToggleLabel}>
-                  {fixedHeight ? "Fixed" : "Dynamic"}
-                </span>
-              </button>
-              <span className={styles.heightDesc}>
-                {fixedHeight
-                  ? "Prevents layout shift on paginate"
-                  : "Shrinks to fit content (Figma spec)"}
-              </span>
+            <div className={styles.reviewerTools}>
+              <DesignNotes>
+                <div className={styles.drawerToggles}>
+                  <div className={styles.toggleControl}>
+                    <div className={styles.toggleLabel}>Table height</div>
+                    <button
+                      className={styles.toggle}
+                      role="switch"
+                      aria-checked={fixedHeight}
+                      onClick={() => setFixedHeight((v) => !v)}
+                      type="button"
+                    >
+                      <span className={styles.toggleThumb} />
+                      <span className={styles.toggleText}>
+                        {fixedHeight ? "Fixed" : "Dynamic"}
+                      </span>
+                    </button>
+                    <span className={styles.toggleDesc}>
+                      {fixedHeight
+                        ? "Prevents layout shift on paginate"
+                        : "Shrinks to fit content (Figma spec)"}
+                    </span>
+                  </div>
+                </div>
+              </DesignNotes>
             </div>
-          </DesignNotes>
+          </div>
+
+          <div
+            className={styles.tableCard}
+            data-fixed-height={fixedHeight || undefined}
+          >
+            {filteredAndSorted.length > 0 ? (
+              <>
+                <div className={styles.tableWrapper}>
+                  <DataTable
+                    data={pageData}
+                    columns={columns}
+                    sortConfig={sortConfig}
+                    onSort={handleSort}
+                    rowKey={getSongKey}
+                  />
+                </div>
+                <Pagination
+                  currentPage={safePage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage}
+                />
+              </>
+            ) : (
+              <div className={styles.emptyState}>
+                <div className={styles.emptyStateTitle}>No songs found</div>
+                <div className={styles.emptyStateHint}>
+                  Try adjusting your search or filters to see results
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      <div
-        className={styles.tableCard}
-        data-fixed-height={fixedHeight || undefined}
-      >
-        {filteredAndSorted.length > 0 ? (
-          <>
-            <div className={styles.tableWrapper}>
-              <DataTable
-                data={pageData}
-                columns={columns}
-                sortConfig={sortConfig}
-                onSort={handleSort}
-                rowKey={getSongKey}
-              />
-            </div>
-            <Pagination
-              currentPage={safePage}
-              totalPages={totalPages}
-              onPageChange={setCurrentPage}
-            />
-          </>
-        ) : (
-          <div className={styles.emptyState}>
-            <div className={styles.emptyStateTitle}>No songs found</div>
-            <div className={styles.emptyStateHint}>
-              Try adjusting your search or filters to see results
-            </div>
-          </div>
-        )}
-      </div>
+      <aside className={styles.sidebar} data-visible={showTooling || undefined}>
+        <TokenControls
+          key={resetKey}
+          activePreset={activePreset}
+          onActivePresetChange={setActivePreset}
+          onReset={handleTokenReset}
+        />
+      </aside>
     </div>
   );
 }

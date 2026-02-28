@@ -1,9 +1,11 @@
 :root {
   /* ========================================
      PRIMITIVE TOKENS
-     Raw values from the Figma design file.
-     Never reference these directly in components —
-     use semantic tokens instead.
+     Raw values extracted from the Figma design file.
+     Colors have semantic aliases below — components
+     reference those instead. Other primitives (spacing,
+     typography, radii, motion) are used directly because
+     their names already encode intent.
      ======================================== */
 
   /* Colors */

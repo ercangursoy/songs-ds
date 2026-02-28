@@ -12,6 +12,8 @@ export const designNoteGroups: DesignNoteGroup[] = [
       "Optional fixed table height to prevent layout shift",
       "Responsive layout: stacks on mobile, table scrolls horizontally",
       "Smooth table card height transitions via interpolate-size",
+      "Theme presets via primitive token swap (zero component changes)",
+      "Live token playground with WCAG contrast checker",
     ],
   },
   {

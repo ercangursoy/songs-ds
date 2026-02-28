@@ -1,3 +1,56 @@
+.shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+}
+
+.leftSidebar {
+  width: 0;
+  flex-shrink: 0;
+  border-right: none;
+  background: var(--color-bg-surface);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    width var(--duration-slow) var(--ease-out),
+    border-right-width var(--duration-slow) var(--ease-out);
+}
+
+.leftSidebar[data-visible] {
+  width: 18rem;
+  border-right: var(--border-width) solid var(--color-border-default);
+}
+
+.sidebar {
+  width: 0;
+  flex-shrink: 0;
+  border-left: none;
+  background: var(--color-bg-surface);
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition:
+    width var(--duration-slow) var(--ease-out),
+    border-left-width var(--duration-slow) var(--ease-out);
+}
+
+.sidebar[data-visible] {
+  width: 22rem;
+  border-left: var(--border-width) solid var(--color-border-default);
+}
+
 .page {
   max-width: 80rem;
   margin: 0 auto;
@@ -74,19 +127,25 @@
   margin-left: auto;
 }
 
-.heightControl {
+.drawerToggles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.toggleControl {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
 }
 
-.heightLabel {
+.toggleLabel {
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
 }
 
-.heightToggle {
+.toggle {
   display: flex;
   align-items: center;
   gap: var(--space-2);
@@ -95,7 +154,7 @@
   background: none;
 }
 
-.heightToggleThumb {
+.toggleThumb {
   position: relative;
   width: 1.75rem;
   height: 1rem;
@@ -104,7 +163,7 @@
   transition: background-color var(--duration-base) var(--ease-out);
 }
 
-.heightToggleThumb::after {
+.toggleThumb::after {
   content: "";
   position: absolute;
   top: 0.125rem;
@@ -116,21 +175,21 @@
   transition: transform var(--duration-base) var(--ease-out);
 }
 
-.heightToggle[aria-checked="true"] .heightToggleThumb {
+.toggle[aria-checked="true"] .toggleThumb {
   background: var(--color-interactive);
 }
 
-.heightToggle[aria-checked="true"] .heightToggleThumb::after {
+.toggle[aria-checked="true"] .toggleThumb::after {
   transform: translateX(0.75rem);
 }
 
-.heightToggleLabel {
+.toggleText {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
 }
 
-.heightDesc {
+.toggleDesc {
   font-size: var(--font-size-xs);
   color: var(--color-text-disabled);
 }
@@ -138,6 +197,41 @@
 /* ---- Responsive ---- */
 
 @media (max-width: 48rem) {
+  .shell {
+    flex-direction: column;
+  }
+
+  .leftSidebar {
+    width: 0;
+    height: auto;
+    max-height: 0;
+    position: static;
+    border-right: none;
+    border-bottom: none;
+    transition: max-height var(--duration-slow) var(--ease-out);
+  }
+
+  .leftSidebar[data-visible] {
+    width: 100%;
+    max-height: 40vh;
+    border-bottom: var(--border-width) solid var(--color-border-default);
+  }
+
+  .sidebar {
+    width: 0;
+    height: 0;
+    position: static;
+    border-left: none;
+    border-top: none;
+    transition: height var(--duration-slow) var(--ease-out);
+  }
+
+  .sidebar[data-visible] {
+    width: 100%;
+    height: 50vh;
+    border-top: var(--border-width) solid var(--color-border-default);
+  }
+
   .page {
     padding: var(--space-4);
   }

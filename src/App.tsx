@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import {
   SearchInput,
   MultiSelectFilter,
@@ -112,28 +112,45 @@ export default function App() {
   const [activePreset, setActivePreset] = useState("Default");
   const handleTokenReset = useCallback(() => setResetKey((k) => k + 1), []);
 
-  const [showTooling, setShowTooling] = useState(false);
+  const [toolingMounted, setToolingMounted] = useState(false);
+  const [toolingVisible, setToolingVisible] = useState(false);
+  const unmountTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  const toggleTooling = useCallback(() => {
+    if (!toolingMounted) {
+      clearTimeout(unmountTimer.current);
+      setToolingMounted(true);
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => setToolingVisible(true)),
+      );
+    } else {
+      setToolingVisible(false);
+      unmountTimer.current = setTimeout(() => setToolingMounted(false), 200);
+    }
+  }, [toolingMounted]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "t" && !e.metaKey && !e.ctrlKey && !e.altKey) {
         const tag = (e.target as HTMLElement).tagName;
         if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
-        setShowTooling((v) => !v);
+        toggleTooling();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+  }, [toggleTooling]);
 
   return (
     <div className={styles.shell}>
-      <aside
-        className={styles.leftSidebar}
-        data-visible={showTooling || undefined}
-      >
-        <InspectorPanel />
-      </aside>
+      {toolingMounted && (
+        <aside
+          className={styles.leftSidebar}
+          data-visible={toolingVisible || undefined}
+        >
+          <InspectorPanel />
+        </aside>
+      )}
       <div className={styles.main}>
         <div className={styles.page}>
           <h1 className={styles.title}>Songs</h1>
@@ -220,14 +237,19 @@ export default function App() {
         </div>
       </div>
 
-      <aside className={styles.sidebar} data-visible={showTooling || undefined}>
-        <TokenControls
-          key={resetKey}
-          activePreset={activePreset}
-          onActivePresetChange={setActivePreset}
-          onReset={handleTokenReset}
-        />
-      </aside>
+      {toolingMounted && (
+        <aside
+          className={styles.sidebar}
+          data-visible={toolingVisible || undefined}
+        >
+          <TokenControls
+            key={resetKey}
+            activePreset={activePreset}
+            onActivePresetChange={setActivePreset}
+            onReset={handleTokenReset}
+          />
+        </aside>
+      )}
     </div>
   );
 }
